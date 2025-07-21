@@ -11,6 +11,7 @@ namespace GestaoPedidosWpf.ViewModels
         public ICommand NavegarDashboardCommand { get; }
         public ICommand NavegarPessoasCommand { get; }
         public ICommand NavegarProdutosCommand { get; }
+        public ICommand NavegarPedidosCommand { get; }
 
         private UserControl _conteudoAtual;
         public UserControl ConteudoAtual
@@ -28,6 +29,7 @@ namespace GestaoPedidosWpf.ViewModels
             NavegarDashboardCommand = new RelayCommand(() => ConteudoAtual = new DashboardView());
             NavegarPessoasCommand = new RelayCommand(() => ConteudoAtual = new PessoaView());
             NavegarProdutosCommand = new RelayCommand(() => ConteudoAtual = new ProdutoView());
+            NavegarPedidosCommand = new RelayCommand(() => ConteudoAtual = new PedidoView());
 
             ConteudoAtual = new DashboardView();
         }

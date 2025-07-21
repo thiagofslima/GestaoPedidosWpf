@@ -1,0 +1,40 @@
+[
+  {
+    "Id": 1,
+    "PessoaId": 2,
+    "ProdutosPedido": [
+      {
+        "ProdutoId": 101,
+        "Nome": "Camiseta",
+        "Quantidade": 2,
+        "ValorUnitario": 50.0
+      },
+      {
+        "ProdutoId": 102,
+        "Nome": "Calça Jeans",
+        "Quantidade": 1,
+        "ValorUnitario": 120.0
+      }
+    ],
+    "ValorTotal": 220.0,
+    "DataVenda": "2025-07-19T14:32:00",
+    "FormaPagamento": "Cartao",
+    "Status": "Pendente"
+  },
+  {
+    "Id": 2,
+    "PessoaId": 1,
+    "ProdutosPedido": [
+      {
+        "ProdutoId": 103,
+        "Nome": "Tênis",
+        "Quantidade": 1,
+        "ValorUnitario": 250.0
+      }
+    ],
+    "ValorTotal": 250.0,
+    "DataVenda": "2025-07-18T11:00:00",
+    "FormaPagamento": "Dinheiro",
+    "Status": "Pago"
+  }
+]

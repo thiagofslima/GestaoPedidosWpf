@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="GestaoPedidosWpf.Views.PedidoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:GestaoPedidosWpf.Views"
+             xmlns:models="clr-namespace:GestaoPedidosWpf.Models"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <x:Array x:Key="PedidosExemplo" Type="{x:Type models:Pedido}">
+            <models:Pedido DataVenda="2025-07-21T14:30:00"
+                           ValorTotal="150.00"
+                           FormaPagamento="Cartao"
+                           Status="Enviado">
+                <models:Pedido.Pessoa>
+                    <models:Pessoa Nome="João Silva" />
+                </models:Pedido.Pessoa>
+            </models:Pedido>
+
+            <models:Pedido DataVenda="2025-07-20T10:00:00"
+                           ValorTotal="89.90"
+                           FormaPagamento="Boleto"
+                           Status="Recebido">
+                <models:Pedido.Pessoa>
+                    <models:Pessoa Nome="Maria Souza" />
+                </models:Pedido.Pessoa>
+            </models:Pedido>
+        </x:Array>
+    </UserControl.Resources>
+
+    <Grid>
+
+        <ComboBox
+            ItemsSource="{Binding Pessoas}"
+            SelectedItem="{Binding PessoaSelecionada, Mode=TwoWay}"
+            HorizontalAlignment="Center" Margin="0,10,0,0"
+            VerticalAlignment="Top" Width="250" Height="30" />
+
+        <DataGrid
+            ItemsSource="{Binding Pedidos}"
+            d:ItemsSource="{StaticResource PedidosExemplo}"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            IsReadOnly="True"
+            Margin="0,93,0,57">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Data" Binding="{Binding DataVenda, StringFormat='dd/MM/yyyy HH:mm'}" />
+                <DataGridTextColumn Header="Valor Total" Binding="{Binding ValorTotal, StringFormat=C, ConverterCulture=pt-BR}" />
+                <DataGridTextColumn Header="Forma Pagamento" Binding="{Binding FormaPagamento}" />
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
+                <DataGridTextColumn Header="Pessoa" Binding="{Binding Pessoa.Nome}" />
+                <DataGridTemplateColumn Header="Ações">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Pago" Command="{Binding DataContext.MarcarComoPagoCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" />
+                                <Button Content="Enviado" Command="{Binding DataContext.MarcarComoEnviadoCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" />
+                                <Button Content="Recebido" Command="{Binding DataContext.MarcarComoRecebidoCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

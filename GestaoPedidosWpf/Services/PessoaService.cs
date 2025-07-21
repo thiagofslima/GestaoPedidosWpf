@@ -30,6 +30,12 @@ namespace GestaoPedidosWpf.Services
             return listaPessoas = new List<Pessoa>();
         }
 
+        public Pessoa ObterPorId(int id)
+        {
+            var listaPessoas = ObterTodas();
+            return listaPessoas.FirstOrDefault(p => p.Id == id);
+        }
+
         public void Adicionar(Pessoa pessoa)
         {
             if (!Directory.Exists(caminhoPasta))
