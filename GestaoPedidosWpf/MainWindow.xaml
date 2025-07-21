@@ -4,10 +4,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GestaoPedidosWpf"
+        xmlns:viewmodels="clr-namespace:GestaoPedidosWpf.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="364" Width="800" WindowStartupLocation="CenterScreen">
-    <Grid>
-        <Button x:Name="btnTelaPessoas" Content="Pessoas" HorizontalAlignment="Left" Margin="55,0,0,0" VerticalAlignment="Center" Height="100" Width="150" FontSize="24" Click="btnTelaPessoas_Click"/>
+        Title="MainWindow" Height="600" Width="960" WindowStartupLocation="CenterScreen">
 
+    <Window.DataContext>
+        <viewmodels:MainViewModel />
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Background="#EEE">
+            <Button Content="Dashboard" Command="{Binding NavegarDashboardCommand}" Height="40"/>
+            <Button Content="Pessoas" Command="{Binding NavegarPessoasCommand}" Height="40"/>
+        </StackPanel>
+
+        <ContentControl Content="{Binding ConteudoAtual}" Grid.Column="1" />
     </Grid>
 </Window>

@@ -26,11 +26,5 @@ namespace GestaoPedidosWpf
         {
             InitializeComponent();
         }
-
-        private void btnTelaPessoas_Click(object sender, RoutedEventArgs e)
-        {
-            var tela = new PessoaView();
-            tela.ShowDialog();
-        }
     }
 }

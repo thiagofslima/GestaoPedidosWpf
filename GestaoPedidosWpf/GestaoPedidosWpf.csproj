@@ -60,7 +60,11 @@
     </ApplicationDefinition>
     <Compile Include="Services\PessoaService.cs" />
     <Compile Include="Services\RelayCommand.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PessoaViewModel.cs" />
+    <Compile Include="Views\DashboardView.xaml.cs">
+      <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PessoaCadastroView.xaml.cs">
       <DependentUpon>PessoaCadastroView.xaml</DependentUpon>
     </Compile>
