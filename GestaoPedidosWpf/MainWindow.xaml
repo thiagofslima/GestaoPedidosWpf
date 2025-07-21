@@ -20,6 +20,7 @@
         <StackPanel Background="#EEE">
             <Button Content="Dashboard" Command="{Binding NavegarDashboardCommand}" Height="40"/>
             <Button Content="Pessoas" Command="{Binding NavegarPessoasCommand}" Height="40"/>
+            <Button Content="Produtos" Command="{Binding NavegarProdutosCommand}" Height="40"/>
         </StackPanel>
 
         <ContentControl Content="{Binding ConteudoAtual}" Grid.Column="1" />

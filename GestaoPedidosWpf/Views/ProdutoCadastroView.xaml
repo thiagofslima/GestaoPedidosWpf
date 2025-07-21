@@ -1,0 +1,21 @@
+﻿<Window x:Class="GestaoPedidosWpf.Views.ProdutoCadastroView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestaoPedidosWpf.Views"
+        mc:Ignorable="d"
+        Title="ProdutoCadastroView" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Label Content="Nome:" HorizontalAlignment="Left" Margin="84,69,0,0" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Nome}" x:Name="txtNome" HorizontalAlignment="Left" Margin="84,95,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="250"/>
+        <Label Content="Código:" HorizontalAlignment="Left" Margin="84,118,0,0" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Codigo}" x:Name="txtCodigo" HorizontalAlignment="Left" Margin="84,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="250"/>
+        <Label Content="Nome:" HorizontalAlignment="Left" Margin="84,69,0,0" VerticalAlignment="Top"/>
+        <Label Content="Valor:" HorizontalAlignment="Left" Margin="84,167,0,0" VerticalAlignment="Top"/>
+        <TextBox Text="{Binding Valor}" x:Name="txtValor" HorizontalAlignment="Left" Margin="84,193,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="250"/>
+        <Button x:Name="btnSalvar" Content="Salvar" HorizontalAlignment="Left" Margin="84,225,0,0" VerticalAlignment="Top" Click="btnSalvar_Click" Width="80"/>
+        <Button x:Name="btnCancelar" Content="Cancelar" HorizontalAlignment="Left" Margin="169,225,0,0" VerticalAlignment="Top" Click="btnCancelar_Click" Width="80"/>
+
+    </Grid>
+</Window>

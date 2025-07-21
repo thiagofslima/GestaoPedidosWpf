@@ -1,12 +1,8 @@
 ﻿using GestaoPedidosWpf.Models;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace GestaoPedidosWpf.Services
 {
@@ -18,12 +14,12 @@ namespace GestaoPedidosWpf.Services
         public PessoaService()
         {
             caminhoPasta = Path.GetFullPath(@"..\..\") + "Data";
-            caminhoArquivo = Path.Combine(caminhoPasta, "pessoa.json");
+            caminhoArquivo = Path.Combine(caminhoPasta, "pessoas.json");
         }
 
         public List<Pessoa> ObterTodas()
         {
-            List<Pessoa> personList;
+            List<Pessoa> listaPessoas;
 
             if (File.Exists(caminhoArquivo))
             {
@@ -31,7 +27,7 @@ namespace GestaoPedidosWpf.Services
                 return JsonConvert.DeserializeObject<List<Pessoa>>(json) ?? new List<Pessoa>();
             }
 
-            return personList = new List<Pessoa>();
+            return listaPessoas = new List<Pessoa>();
         }
 
         public void Adicionar(Pessoa pessoa)
