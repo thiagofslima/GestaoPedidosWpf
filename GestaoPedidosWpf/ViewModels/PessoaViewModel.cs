@@ -13,7 +13,6 @@ namespace GestaoPedidosWpf.ViewModels
         private readonly PessoaService _pessoaService = new PessoaService();
 
         public ObservableCollection<Pessoa> Pessoas { get; set; }
-        public ObservableCollection<Pessoa> PessoasFiltradas { get; set; }
 
         private Pessoa _pessoaSelecionada;
         public Pessoa PessoaSelecionada
@@ -52,14 +51,13 @@ namespace GestaoPedidosWpf.ViewModels
         public PessoaViewModel()
         {
             Pessoas  = new ObservableCollection<Pessoa>(_pessoaService.ObterTodas());
-            PessoasFiltradas = new ObservableCollection<Pessoa>(Pessoas);
         }
 
         private void FiltrarPessoas()
         {
-            PessoasFiltradas.Clear();
+            Pessoas.Clear();
             foreach (var pessoa in _pessoaService.ObterPorNomeOuCpf(TextoFiltro))
-                PessoasFiltradas.Add(pessoa);
+                Pessoas.Add(pessoa);
         }
 
         private void AdicionarPessoa()

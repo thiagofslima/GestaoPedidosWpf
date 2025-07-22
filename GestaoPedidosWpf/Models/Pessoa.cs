@@ -16,7 +16,7 @@ namespace GestaoPedidosWpf.Models
             {
                 if (_endereco != value)
                 {
-                    _endereco = value;
+                    _endereco = value ?? new Endereco();
                     OnPropertyChanged(nameof(Endereco));
                 }
             }

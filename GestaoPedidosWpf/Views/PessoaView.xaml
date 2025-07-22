@@ -58,7 +58,7 @@
 
         <!-- DataGrid -->
         <DataGrid Grid.Row="1"
-                  ItemsSource="{Binding PessoasFiltradas}"
+                  ItemsSource="{Binding Pessoas}"
                   d:ItemsSource="{StaticResource PessoasExemplo}"
                   SelectedItem="{Binding PessoaSelecionada, Mode=TwoWay}"
                   AutoGenerateColumns="False"
