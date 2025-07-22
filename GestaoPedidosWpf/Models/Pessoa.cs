@@ -40,7 +40,7 @@ namespace GestaoPedidosWpf.Models
                 OnPropertyChanged(nameof(Ativo));
             }
         }
-        private Endereco _endereco;
+        private Endereco _endereco = new Endereco();
         public Endereco Endereco
         {
             get => _endereco;
@@ -66,7 +66,6 @@ namespace GestaoPedidosWpf.Models
 
     public class Endereco
     {
-        public int Id { get; set; }
         public string Rua { get; set; }
         public string Numero { get; set; }
         public string Bairro { get; set; }
