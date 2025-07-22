@@ -5,9 +5,41 @@ namespace GestaoPedidosWpf.Models
     public class Pessoa : INotifyPropertyChanged
     {
         public int Id { get; set; }
-        public string Nome { get; set; }
-        public string Cpf { get; set; }
-        public bool Ativo { get; set; }
+        private string _nome;
+        public string Nome
+        {
+            get => _nome;
+            set
+            {
+                if (_nome == value) return;
+                _nome = value;
+                OnPropertyChanged(nameof(Nome));
+            }
+        }
+
+        private string _cpf;
+        public string Cpf
+        {
+            get => _cpf;
+            set
+            {
+                if (_cpf == value) return;
+                _cpf = value;
+                OnPropertyChanged(nameof(Cpf));
+            }
+        }
+
+        private bool _ativo;
+        public bool Ativo
+        {
+            get => _ativo;
+            set
+            {
+                if (_ativo == value) return;
+                _ativo = value;
+                OnPropertyChanged(nameof(Ativo));
+            }
+        }
         private Endereco _endereco;
         public Endereco Endereco
         {
