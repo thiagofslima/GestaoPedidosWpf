@@ -65,5 +65,31 @@ namespace GestaoPedidosWpf.Services
                 File.WriteAllText(caminhoArquivo, JsonConvert.SerializeObject(listaPessoas, Formatting.Indented));
             }
         }
+
+        public void Atualizar(Pessoa pessoa)
+        {
+            var listaPessoas = ObterTodas();
+
+            var index = listaPessoas.FindIndex(p => p.Id == pessoa.Id);
+            if (index >= 0)
+            {
+                pessoa.Endereco = pessoa.Endereco.Copiar();
+                listaPessoas[index] = pessoa;
+                File.WriteAllText(caminhoArquivo, JsonConvert.SerializeObject(listaPessoas, Formatting.Indented));
+            }
+        }
+
+        internal void Excluir(int id)
+        {
+            var listaPessoas = ObterTodas();
+
+            var index = listaPessoas.FindIndex(p => p.Id == id);
+            if (index >= 0)
+            {
+                //listaPessoas[index].Ativo = false;
+                listaPessoas.RemoveAt(index);
+                File.WriteAllText(caminhoArquivo, JsonConvert.SerializeObject(listaPessoas, Formatting.Indented));
+            }
+        }
     }
 }

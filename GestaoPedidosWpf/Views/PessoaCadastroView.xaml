@@ -86,8 +86,8 @@
 
         <!-- Botões -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,1,0,0">
-            <Button x:Name="btnSalvar" Content="Salvar" Width="90" Margin="0,0,10,0" Command="{Binding SalvarCommand}" Height="25" Click="btnSalvar_Click"/>
-            <Button Content="Cancelar" Width="90" Height="25"/>
+            <Button Content="Salvar" Command="{Binding SalvarCommand}" Width="90" Margin="0,0,10,0" Height="25" Click="Button_Click"/>
+            <Button Content="Cancelar" Command="{Binding CancelarCommand}" Width="90" Height="25" Click="Button_Click_1"/>
         </StackPanel>
     </Grid>
 </Window>
