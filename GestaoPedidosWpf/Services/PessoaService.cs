@@ -73,7 +73,7 @@ namespace GestaoPedidosWpf.Services
             var index = listaPessoas.FindIndex(p => p.Id == pessoa.Id);
             if (index >= 0)
             {
-                pessoa.Endereco = pessoa.Endereco.Copiar();
+                pessoa.Endereco = pessoa.Endereco?.Copiar();
                 listaPessoas[index] = pessoa;
                 File.WriteAllText(caminhoArquivo, JsonConvert.SerializeObject(listaPessoas, Formatting.Indented));
             }

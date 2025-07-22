@@ -23,6 +23,9 @@ namespace GestaoPedidosWpf.ViewModels
                 if (_pessoaSelecionada != value)
                 {
                     _pessoaSelecionada = value;
+                    if (_pessoaSelecionada != null && _pessoaSelecionada.Endereco == null)
+                        _pessoaSelecionada.Endereco = new Endereco();
+
                     OnPropertyChanged(nameof(PessoaSelecionada));
                 }
             }

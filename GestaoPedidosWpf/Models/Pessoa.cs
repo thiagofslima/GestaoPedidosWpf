@@ -16,7 +16,7 @@ namespace GestaoPedidosWpf.Models
             {
                 if (_endereco != value)
                 {
-                    _endereco = value ?? new Endereco();
+                    _endereco = value;
                     OnPropertyChanged(nameof(Endereco));
                 }
             }
@@ -44,7 +44,15 @@ namespace GestaoPedidosWpf.Models
 
         public Endereco Copiar()
         {
-            return (Endereco)this.MemberwiseClone();
+            if (string.IsNullOrWhiteSpace(Rua)
+                  && string.IsNullOrWhiteSpace(Numero)
+                  && string.IsNullOrWhiteSpace(Bairro)
+                  && string.IsNullOrWhiteSpace(Cidade)
+                  && string.IsNullOrWhiteSpace(Estado)
+                  && string.IsNullOrWhiteSpace(Cep))
+                return null;
+
+            return (Endereco)MemberwiseClone();
         }
 
         override public string ToString()
