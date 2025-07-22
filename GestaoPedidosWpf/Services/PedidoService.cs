@@ -37,7 +37,7 @@ namespace GestaoPedidosWpf.Services
 
         public List<Pedido> ObterPorPessoa(int pessoaId)
         {
-            return ObterTodos().Where(p => p.Id == pessoaId).ToList();
+            return ObterTodos().Where(p => p.PessoaId == pessoaId).ToList();
         }
 
         public void Adicionar(Pedido produto)

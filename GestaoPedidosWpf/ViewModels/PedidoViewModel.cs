@@ -1,14 +1,32 @@
 ﻿using GestaoPedidosWpf.Models;
 using GestaoPedidosWpf.Services;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Input;
 
 namespace GestaoPedidosWpf.ViewModels
 {
     public class PedidoViewModel : INotifyPropertyChanged
     {
+        public event Action<Pessoa> CriarPedidoRequested;
+        public ProdutoPedido ProdutoPedido { get; set; } = new ProdutoPedido();
+        public ProdutoPedido ItemSelecionado { get; set; } = new ProdutoPedido();
+        public decimal TotalPedido { get => _totalPedido; set { _totalPedido = value; OnPropertyChanged(nameof(TotalPedido)); } }
+        private decimal _totalPedido;
+
+        public ICommand NovoPedidoCommand { get; }
+        public ICommand AdicionarItemCommand { get; }
+        public ICommand RemoverItemCommand { get; }
+        public ICommand SalvarPedidoCommand { get; }
+
+
         public ObservableCollection<Pessoa> Pessoas { get; set; }
+        public ObservableCollection<Produto> Produtos { get; set; }
+        public ObservableCollection<ProdutoPedido> ItensPedido { get; }
         private ObservableCollection<Pedido> _pedidos;
         public ObservableCollection<Pedido> Pedidos
         {
@@ -35,13 +53,87 @@ namespace GestaoPedidosWpf.ViewModels
 
         public PedidoViewModel()
         {
+            NovoPedidoCommand = new RelayCommand(AbrirNovoPedido);
+
             Pessoas = new ObservableCollection<Pessoa>(new PessoaService().ObterTodas());
             Pedidos = new ObservableCollection<Pedido>(new PedidoService().ObterTodos());
+            Produtos = new ObservableCollection<Produto>(new ProdutoService().ObterTodas());
+            ItensPedido = new ObservableCollection<ProdutoPedido>();
+
+            AdicionarItemCommand = new RelayCommand(() =>
+            {
+
+                if (ProdutoPedido.Produto == null || ProdutoPedido.Quantidade <= 0)
+                {
+                    MessageBox.Show("Selecione um produto e informe a quantidade");
+                    return;
+                }
+
+                var novoItem = new ProdutoPedido
+                {
+                    Produto = this.ProdutoPedido.Produto,
+                    Quantidade = this.ProdutoPedido.Quantidade,
+                    ValorUnitario = this.ProdutoPedido.Produto?.ValorUnitario ?? 0
+                };
+
+                TotalPedido += novoItem.Total;
+
+                ItensPedido.Add(novoItem);
+
+                ProdutoPedido = new ProdutoPedido();
+                OnPropertyChanged(nameof(ProdutoPedido));
+            });
+
+            SalvarPedidoCommand = new RelayCommand(() =>
+            {
+                if (PessoaSelecionada == null)
+                {
+                    MessageBox.Show("Selecione uma pessoa");
+                    return;
+                }
+
+                if (!ItensPedido.Any())
+                {
+                    MessageBox.Show("Nenhum produto adicionado");
+                }
+
+                new PedidoService().Adicionar(new Pedido
+                {
+                    PessoaId = PessoaSelecionada.Id,
+                    ProdutosPedido = ItensPedido.ToList(),
+                    ValorTotal = ItensPedido.Sum(i => i.ValorUnitario * i.Quantidade),
+                    DataVenda = DateTime.Now,
+                    FormaPagamento = FormaPagamento.Dinheiro,
+                    Status = Status.Pendente
+                });
+
+                MessageBox.Show("Pedido salvo com sucesso");
+
+                ItensPedido.Clear();
+                TotalPedido = 0m;
+            });
+
+            RemoverItemCommand = new RelayCommand(() =>
+            {
+                TotalPedido -= ItemSelecionado?.Total ?? 0m;
+
+                if (ItemSelecionado != null)
+                    ItensPedido.Remove(ItemSelecionado);
+            });
+        }
+
+
+        private void AbrirNovoPedido()
+        {
+            CriarPedidoRequested?.Invoke(PessoaSelecionada);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string nome) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nome));
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
     }
 }

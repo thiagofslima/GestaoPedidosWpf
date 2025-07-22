@@ -1,0 +1,114 @@
+﻿<UserControl x:Class="GestaoPedidosWpf.Views.PedidoCadastroView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800" Background="#FFD4D4D4">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="Bool2Vis"/>
+        <Style x:Key="RightAlignedCell" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment"   Value="Center"/>
+        </Style>
+        <CollectionViewSource x:Key="ProdutosView" Source="{Binding Produtos}"/>
+    </UserControl.Resources>
+
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Cabeçalho: Cliente/Data -->
+            <RowDefinition Height="Auto"/>
+            <!-- Itens do pedido -->
+            <RowDefinition Height="*"/>
+            <!-- Adicionar/Remover itens -->
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <!-- Salvar/Cancelar -->
+        </Grid.RowDefinitions>
+
+        <!-- 0. Cabeçalho -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,8">
+            <TextBlock Text="Cliente:" VerticalAlignment="Center"/>
+            <ComboBox ItemsSource="{Binding Pessoas}"
+                SelectedItem="{Binding PessoaSelecionada, Mode=TwoWay}"
+                DisplayMemberPath="Nome"
+                Width="200" Margin="8,0,16,0"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,8">
+            <TextBlock Text="Produtos:" VerticalAlignment="Center"/>
+            <ComboBox ItemsSource="{Binding Produtos}"
+                SelectedItem="{Binding ProdutoPedido.Produto, Mode=TwoWay}"
+                DisplayMemberPath="Nome"
+                Width="174" Height="28"/>
+            <TextBlock Text="Quantidade:" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtQuantidade" Text="{Binding ProdutoPedido.Quantidade, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Width="120" Height="28" Margin="5" FontSize="18"/>
+            <TextBlock Text="Valor Unit.:" VerticalAlignment="Center" Margin="5"/>
+            <TextBlock Text="{Binding ProdutoPedido.ValorUnitario, StringFormat=C, ConverterCulture=pt-BR}" d:Text="R$ 4.165,00" Width="100" Height="28" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18"/>
+            <Button x:Name="btnAdicionar" Content="Adicionar" Command="{Binding AdicionarItemCommand}" CommandParameter="{Binding Text, ElementName=txtQuantidade}" Height="28" Width="104" Margin="5"/>
+        </StackPanel>
+
+        <!-- 1. DataGrid de itens do pedido -->
+        <DataGrid x:Name="ItensDataGrid"
+              Grid.Row="2"
+              ItemsSource="{Binding ItensPedido}"
+              SelectedItem="{Binding ItemSelecionado, Mode=TwoWay}"
+              AutoGenerateColumns="False"
+              CanUserAddRows="False"
+              Margin="0,10,0,8">
+            <DataGrid.Columns>
+                <DataGridComboBoxColumn 
+                    Header="Produto"
+                    Width="*"
+                    ItemsSource="{Binding Source={StaticResource ProdutosView}}"
+                    DisplayMemberPath="Nome"
+                    SelectedValuePath="Id"
+                    SelectedItemBinding="{Binding Produto, Mode=TwoWay}" />
+
+                <!-- coluna quantidade -->
+                <DataGridTextColumn Header="Qtd."
+                            Width="60"
+                            Binding="{Binding Quantidade,
+                                      Mode=TwoWay,
+                                      UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn
+                    Header="Valor Unit."
+                    Width="100"
+                    Binding="{Binding ValorUnitario, StringFormat=N2}"
+                    ElementStyle="{StaticResource RightAlignedCell}" />
+                <!-- subtotal calculado em ProdutoPedido.Total -->
+                <DataGridTextColumn Header="Subtotal"
+                            Width="100"
+                            Binding="{Binding Total, StringFormat=N2}"
+                            ElementStyle="{StaticResource RightAlignedCell}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- 2. Botões de adicionar / remover item -->
+        <StackPanel Orientation="Horizontal"
+                Grid.Row="3"
+                Margin="0,0,0,8">
+            <!--<Button Content="Adicionar Item"
+              Command="{Binding AdicionarItemCommand}"
+              Margin="0,0,8,0"/>-->
+            <Button Content="Remover Item"
+              Command="{Binding RemoverItemCommand}"/>
+        </StackPanel>
+
+        <TextBlock Text="{Binding TotalPedido, StringFormat=C, ConverterCulture=pt-BR}" d:Text="R$ 150.525,00" Width="114" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18" Grid.Row="3" Margin="656,0,0,0"/>
+
+        <!-- 3. Botões Salvar / Cancelar pedido -->
+        <StackPanel Orientation="Horizontal"
+                Grid.Row="4"
+                HorizontalAlignment="Right">
+            <Button Content="Salvar"
+              Command="{Binding SalvarPedidoCommand}"
+              Margin="0,0,8,0"/>
+            <Button Content="Cancelar"
+              Command="{Binding CancelarPedidoCommand}"
+                    IsEnabled="{Binding ProdutoPedido}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GestaoPedidosWpf.Models
+﻿namespace GestaoPedidosWpf.Models
 {
     public class Pessoa
     {
@@ -10,7 +8,7 @@ namespace GestaoPedidosWpf.Models
 
         public override string ToString()
         {
-            return $"[{Id}] - {Cpf} - {Nome}";
+            return $"#{Id} - {Nome} - {Cpf}";
         }
     }
 }

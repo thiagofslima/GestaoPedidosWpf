@@ -29,10 +29,40 @@ namespace GestaoPedidosWpf.ViewModels
             NavegarDashboardCommand = new RelayCommand(() => ConteudoAtual = new DashboardView());
             NavegarPessoasCommand = new RelayCommand(() => ConteudoAtual = new PessoaView());
             NavegarProdutosCommand = new RelayCommand(() => ConteudoAtual = new ProdutoView());
-            NavegarPedidosCommand = new RelayCommand(() => ConteudoAtual = new PedidoView());
-
+            NavegarPedidosCommand = new RelayCommand(NavegarParaPedidos);
             ConteudoAtual = new DashboardView();
         }
+
+        private void NavegarParaPedidos()
+        {
+            var pedidosVm = new PedidoViewModel();
+
+            pedidosVm.CriarPedidoRequested += pessoa =>
+            {
+                var cadastroView = new PedidoCadastroView
+                {
+                    DataContext = pedidosVm
+                };
+
+                ConteudoAtual = cadastroView;
+            };
+
+            var pedidosView = new PedidoView
+            {
+                DataContext = pedidosVm
+            };
+            ConteudoAtual = pedidosView;
+        }
+
+        //private void NavegarParaPedidos()
+        //{
+        //    var pedidosVm = new PedidoViewModel();
+
+        //    pedidosVm.CriarPedidoRequested += () => ConteudoAtual = new PedidoCadastroView();
+
+        //    var pedidosView = new PedidoView { DataContext = pedidosVm };
+        //    ConteudoAtual = pedidosView;
+        //}
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string nome) =>

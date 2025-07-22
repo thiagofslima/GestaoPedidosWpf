@@ -16,14 +16,6 @@ namespace GestaoPedidosWpf.Models
         public Status Status { get; set; } = Status.Pendente;
     }
 
-    public class ProdutoPedido
-    {
-        public int ProdutoId { get; set; }
-        public decimal ValorUnitario { get; set; }
-        public int Quantidade { get; set; }
-        public decimal Total => ValorUnitario * Quantidade;
-    }
-
     public enum FormaPagamento
     {
         Dinheiro,

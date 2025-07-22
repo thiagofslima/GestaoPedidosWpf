@@ -60,6 +60,7 @@
     </ApplicationDefinition>
     <Compile Include="Models\Pedido.cs" />
     <Compile Include="Models\Produto.cs" />
+    <Compile Include="Models\ProdutoPedido.cs" />
     <Compile Include="Services\PedidoService.cs" />
     <Compile Include="Services\PessoaService.cs" />
     <Compile Include="Services\ProdutoService.cs" />
@@ -70,6 +71,9 @@
     <Compile Include="ViewModels\ProdutoViewModel.cs" />
     <Compile Include="Views\DashboardView.xaml.cs">
       <DependentUpon>DashboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PedidoCadastroView.xaml.cs">
+      <DependentUpon>PedidoCadastroView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PedidoView.xaml.cs">
       <DependentUpon>PedidoView.xaml</DependentUpon>
@@ -99,6 +103,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\DashboardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PedidoCadastroView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

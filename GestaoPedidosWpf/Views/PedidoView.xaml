@@ -65,5 +65,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Button Content="Novo Pedido" Command="{Binding NovoPedidoCommand}" HorizontalAlignment="Left" Margin="598,40,0,0" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>
