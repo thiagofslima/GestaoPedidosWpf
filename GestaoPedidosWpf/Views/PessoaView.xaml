@@ -1,14 +1,52 @@
 ﻿<UserControl x:Class="GestaoPedidosWpf.Views.PessoaView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GestaoPedidosWpf.Views"
-        mc:Ignorable="d"
-        d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Button x:Name="btnAdicionar" Command="{Binding AdicionarPessoaCommand}" Content="Adicionar" HorizontalAlignment="Left" Margin="353,69,0,0" VerticalAlignment="Top"/>
-        <DataGrid ItemsSource="{Binding Pessoas}" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,108,0,85"/>
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:models="clr-namespace:GestaoPedidosWpf.Models"
+             xmlns:viewmodels="clr-namespace:GestaoPedidosWpf.ViewModels"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
 
+    <UserControl.Resources>
+        <!-- Lista de exemplo para visualização no designer -->
+        <x:Array x:Key="PessoasExemplo" Type="{x:Type models:Pessoa}">
+            <models:Pessoa Id="1" Nome="João Silva" Cpf="123.456.789-00">
+                <models:Pessoa.Endereco>
+                    <models:Endereco Rua="Rua das Palmeiras" Numero="100" Bairro="Centro" Cidade="São Paulo" Estado="SP" Cep="12345-678"/>
+                </models:Pessoa.Endereco>
+            </models:Pessoa>
+            <models:Pessoa Id="2" Nome="Maria Souza" Cpf="987.654.321-00">
+                <models:Pessoa.Endereco>
+                    <models:Endereco Rua="Avenida Brasil" Numero="200" Bairro="Jardim América" Cidade="Rio de Janeiro" Estado="RJ" Cep="98765-432"/>
+                </models:Pessoa.Endereco>
+            </models:Pessoa>
+        </x:Array>
+    </UserControl.Resources>
+
+    <Grid Margin="20">
+        <StackPanel>
+            <Button x:Name="btnAdicionar"
+                    Command="{Binding AdicionarPessoaCommand}"
+                    Content="Adicionar"
+                    Width="100"
+                    HorizontalAlignment="Left"
+                    Margin="0,0,0,10"/>
+
+            <DataGrid ItemsSource="{Binding Pessoas}"
+                      d:ItemsSource="{StaticResource PessoasExemplo}"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      IsReadOnly="True"
+                      Height="300">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50"/>
+                    <DataGridTextColumn Header="Nome" Binding="{Binding Nome}" Width="*"/>
+                    <DataGridTextColumn Header="CPF" Binding="{Binding Cpf}" Width="100"/>
+                    <DataGridTextColumn Header="Endereço" Binding="{Binding Endereco}" Width="2*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
     </Grid>
 </UserControl>
