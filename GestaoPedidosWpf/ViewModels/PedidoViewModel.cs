@@ -1,6 +1,7 @@
 ﻿using GestaoPedidosWpf.Models;
 using GestaoPedidosWpf.Services;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -15,14 +16,14 @@ namespace GestaoPedidosWpf.ViewModels
         public event Action<Pessoa> CriarPedidoRequested;
         public ProdutoPedido ProdutoPedido { get; set; } = new ProdutoPedido();
         public ProdutoPedido ItemSelecionado { get; set; } = new ProdutoPedido();
+
         public decimal TotalPedido { get => _totalPedido; set { _totalPedido = value; OnPropertyChanged(nameof(TotalPedido)); } }
         private decimal _totalPedido;
 
         public ICommand NovoPedidoCommand { get; }
         public ICommand AdicionarItemCommand { get; }
         public ICommand RemoverItemCommand { get; }
-        public ICommand SalvarPedidoCommand { get; }
-
+        public ICommand FinalizarPedidoCommand { get; }
 
         public ObservableCollection<Pessoa> Pessoas { get; set; }
         public ObservableCollection<Produto> Produtos { get; set; }
@@ -51,6 +52,22 @@ namespace GestaoPedidosWpf.ViewModels
             }
         }
 
+        public IEnumerable<FormaPagamento> FormasPagamento
+            => Enum.GetValues(typeof(FormaPagamento))
+                   .Cast<FormaPagamento>();
+
+        private FormaPagamento _formaSelecionada;
+        public FormaPagamento FormaSelecionada
+        {
+            get => _formaSelecionada;
+            set
+            {
+                if (_formaSelecionada == value) return;
+                _formaSelecionada = value;
+                OnPropertyChanged();
+            }
+        }
+
         public PedidoViewModel()
         {
             NovoPedidoCommand = new RelayCommand(AbrirNovoPedido);
@@ -62,7 +79,6 @@ namespace GestaoPedidosWpf.ViewModels
 
             AdicionarItemCommand = new RelayCommand(() =>
             {
-
                 if (ProdutoPedido.Produto == null || ProdutoPedido.Quantidade <= 0)
                 {
                     MessageBox.Show("Selecione um produto e informe a quantidade");
@@ -84,7 +100,7 @@ namespace GestaoPedidosWpf.ViewModels
                 OnPropertyChanged(nameof(ProdutoPedido));
             });
 
-            SalvarPedidoCommand = new RelayCommand(() =>
+            FinalizarPedidoCommand = new RelayCommand(() =>
             {
                 if (PessoaSelecionada == null)
                 {
@@ -103,11 +119,11 @@ namespace GestaoPedidosWpf.ViewModels
                     ProdutosPedido = ItensPedido.ToList(),
                     ValorTotal = ItensPedido.Sum(i => i.ValorUnitario * i.Quantidade),
                     DataVenda = DateTime.Now,
-                    FormaPagamento = FormaPagamento.Dinheiro,
+                    FormaPagamento = FormaSelecionada,
                     Status = Status.Pendente
                 });
 
-                MessageBox.Show("Pedido salvo com sucesso");
+                MessageBox.Show("Pedido finalizado com sucesso");
 
                 ItensPedido.Clear();
                 TotalPedido = 0m;

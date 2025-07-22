@@ -65,6 +65,8 @@
     <Compile Include="Services\PessoaService.cs" />
     <Compile Include="Services\ProdutoService.cs" />
     <Compile Include="Services\RelayCommand.cs" />
+    <Compile Include="Utils\EnumDescriptionConverter.cs" />
+    <Compile Include="Utils\EnumExtensions.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PedidoViewModel.cs" />
     <Compile Include="ViewModels\PessoaViewModel.cs" />

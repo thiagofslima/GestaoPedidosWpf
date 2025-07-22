@@ -35,7 +35,17 @@
             <ComboBox ItemsSource="{Binding Pessoas}"
                 SelectedItem="{Binding PessoaSelecionada, Mode=TwoWay}"
                 DisplayMemberPath="Nome"
-                Width="200" Margin="8,0,16,0"/>
+                Width="251" Margin="8,0,16,0"/>
+            <TextBlock Text="Forma de Pagamento:" VerticalAlignment="Center"/>
+            <ComboBox ItemsSource="{Binding FormasPagamento}"
+                SelectedItem="{Binding FormaSelecionada, Mode=TwoWay}"
+                Width="161" Margin="8,0,16,0">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource EnumDesc}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,8">
             <TextBlock Text="Produtos:" VerticalAlignment="Center"/>
@@ -99,12 +109,12 @@
 
         <TextBlock Text="{Binding TotalPedido, StringFormat=C, ConverterCulture=pt-BR}" d:Text="R$ 150.525,00" Width="114" Height="28" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="18" Grid.Row="3" Margin="656,0,0,0"/>
 
-        <!-- 3. Botões Salvar / Cancelar pedido -->
+        <!-- 3. Botões Finalizar / Cancelar pedido -->
         <StackPanel Orientation="Horizontal"
                 Grid.Row="4"
                 HorizontalAlignment="Right">
-            <Button Content="Salvar"
-              Command="{Binding SalvarPedidoCommand}"
+            <Button Content="Finalizar"
+              Command="{Binding FinalizarPedidoCommand}"
               Margin="0,0,8,0"/>
             <Button Content="Cancelar"
               Command="{Binding CancelarPedidoCommand}"

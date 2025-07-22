@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace GestaoPedidosWpf.Models
 {
@@ -18,8 +19,11 @@ namespace GestaoPedidosWpf.Models
 
     public enum FormaPagamento
     {
+        [Description("Dinheiro")]
         Dinheiro,
+        [Description("Cartão")]
         Cartao,
+        [Description("Boleto")]
         Boleto
     }
 
