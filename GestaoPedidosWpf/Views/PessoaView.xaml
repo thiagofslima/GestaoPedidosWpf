@@ -6,10 +6,10 @@
              xmlns:models="clr-namespace:GestaoPedidosWpf.Models"
              xmlns:viewmodels="clr-namespace:GestaoPedidosWpf.ViewModels"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
 
     <UserControl.Resources>
-        <!-- Lista de exemplo para visualização no designer -->
         <x:Array x:Key="PessoasExemplo" Type="{x:Type models:Pessoa}">
             <models:Pessoa Id="1" Nome="João Silva" Cpf="123.456.789-00">
                 <models:Pessoa.Endereco>
@@ -25,28 +25,78 @@
     </UserControl.Resources>
 
     <Grid Margin="20">
-        <StackPanel>
-            <Button x:Name="btnAdicionar"
-                    Command="{Binding AdicionarPessoaCommand}"
-                    Content="Adicionar"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Filtro -->
+            <RowDefinition Height="*"/>
+            <!-- DataGrid -->
+            <RowDefinition Height="Auto"/>
+            <!-- Botões inferiores -->
+        </Grid.RowDefinitions>
+
+        <!-- Linha de filtro -->
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Filtrar por Nome ou CPF:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <TextBox Grid.Column="1"
+                     Text="{Binding TextoFiltro, UpdateSourceTrigger=PropertyChanged}"
+                     VerticalAlignment="Center"
+                     Height="25"/>
+            <Button Grid.Column="2"
+                    Content="Limpar"
+                    Command="{Binding LimparFiltroCommand}"
                     Width="100"
-                    HorizontalAlignment="Left"
-                    Margin="0,0,0,10"/>
+                    Height="25"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"/>
+        </Grid>
 
-            <DataGrid ItemsSource="{Binding Pessoas}"
-                      d:ItemsSource="{StaticResource PessoasExemplo}"
-                      AutoGenerateColumns="False"
-                      CanUserAddRows="False"
-                      IsReadOnly="True"
-                      Height="300">
+        <!-- DataGrid -->
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding PessoasFiltradas}"
+                  d:ItemsSource="{StaticResource PessoasExemplo}"
+                  SelectedItem="{Binding PessoaSelecionada, Mode=TwoWay}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  IsReadOnly="True" 
+                  Margin="0,0,0,10">
 
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50"/>
-                    <DataGridTextColumn Header="Nome" Binding="{Binding Nome}" Width="*"/>
-                    <DataGridTextColumn Header="CPF" Binding="{Binding Cpf}" Width="100"/>
-                    <DataGridTextColumn Header="Endereço" Binding="{Binding Endereco}" Width="2*"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </StackPanel>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Nome" Binding="{Binding Nome}" Width="*"/>
+                <DataGridTextColumn Header="CPF" Binding="{Binding Cpf}" Width="150"/>
+                <DataGridTextColumn Header="Endereço" Binding="{Binding Endereco}" Width="2*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Botões inferiores -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Adicionar -->
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Content="Adicionar" 
+                        Command="{Binding AdicionarPessoaCommand}" 
+                        Width="100" Height="30"/>
+            </StackPanel>
+
+            <!-- Editar / Excluir -->
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" >
+                <Button Content="Editar" 
+                        Command="{Binding EditarPessoaCommand}" 
+                        Width="100" Height="30" Margin="0,0,10,0"/>
+                <Button Content="Excluir" 
+                        Command="{Binding ExcluirPessoaCommand}" 
+                        Width="100" Height="30"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

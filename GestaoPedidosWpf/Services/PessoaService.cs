@@ -1,5 +1,6 @@
 ﻿using GestaoPedidosWpf.Models;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -34,6 +35,15 @@ namespace GestaoPedidosWpf.Services
         {
             var listaPessoas = ObterTodas();
             return listaPessoas.FirstOrDefault(p => p.Id == id);
+        }
+
+        public List<Pessoa> ObterPorNomeOuCpf(string filtro)
+        {
+            var listaPessoas = ObterTodas();
+            return listaPessoas.Where(p =>
+                (!string.IsNullOrEmpty(p.Nome) && p.Nome.IndexOf(filtro, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                (!string.IsNullOrEmpty(p.Cpf) && p.Cpf.IndexOf(filtro, StringComparison.OrdinalIgnoreCase) >= 0)
+            ).ToList();
         }
 
         public void Adicionar(Pessoa pessoa)
