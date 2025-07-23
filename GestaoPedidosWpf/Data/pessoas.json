@@ -2,11 +2,71 @@
   {
     "Id": 1,
     "Nome": "Zezé Di Camargo",
-    "Cpf": "4324"
+    "Cpf": "111.222.333-44",
+    "Ativo": true,
+    "Endereco": {
+      "Rua": "Rua Sertaneja",
+      "Numero": "100",
+      "Bairro": "Música Raiz",
+      "Cidade": "Goiânia",
+      "Estado": "GO",
+      "Cep": "74000-000"
+    }
   },
   {
     "Id": 2,
     "Nome": "José Rico",
-    "Cpf": "4324"
+    "Cpf": "222.333.444-55",
+    "Ativo": true,
+    "Endereco": {
+      "Rua": "Avenida da Viola",
+      "Numero": "200",
+      "Bairro": "Modão Antigo",
+      "Cidade": "São José do Rio Preto",
+      "Estado": "SP",
+      "Cep": "15000-000"
+    }
+  },
+  {
+    "Id": 3,
+    "Nome": "Goku da Silva",
+    "Cpf": "333.444.555-66",
+    "Ativo": true,
+    "Endereco": {
+      "Rua": "Rua Kamehameha",
+      "Numero": "9001",
+      "Bairro": "Monte Paozu",
+      "Cidade": "West City",
+      "Estado": "DB",
+      "Cep": "00001-DBZ"
+    }
+  },
+  {
+    "Id": 4,
+    "Nome": "Homer Simpson",
+    "Cpf": "444.555.666-77",
+    "Ativo": true,
+    "Endereco": {
+      "Rua": "Evergreen Terrace",
+      "Numero": "742",
+      "Bairro": "Springfield",
+      "Cidade": "Springfield",
+      "Estado": "IL",
+      "Cep": "62704"
+    }
+  },
+  {
+    "Id": 5,
+    "Nome": "Pedro Álvares",
+    "Cpf": "555.666.777-88",
+    "Ativo": true,
+    "Endereco": {
+      "Rua": "Rua das Caravelas",
+      "Numero": "1500",
+      "Bairro": "Descobrimento",
+      "Cidade": "Porto Seguro",
+      "Estado": "BA",
+      "Cep": "45810-000"
+    }
   }
 ]

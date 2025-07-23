@@ -1,14 +1,62 @@
 [
   {
     "Id": 1,
-    "Nome": "Produto Teste",
-    "Codigo": "123",
-    "Valor": 19.90
+    "Nome": "Smartphone Ultra",
+    "Codigo": "2001",
+    "ValorUnitario": 3499.90
   },
   {
     "Id": 2,
-    "Nome": "teste",
-    "Codigo": "4324",
-    "Valor": 4343.0
+    "Nome": "Notebook Gamer",
+    "Codigo": "2002",
+    "ValorUnitario": 7499.00
+  },
+  {
+    "Id": 3,
+    "Nome": "Smartwatch Pro",
+    "Codigo": "2003",
+    "ValorUnitario": 999.90
+  },
+  {
+    "Id": 4,
+    "Nome": "Fone de Ouvido Bluetooth",
+    "Codigo": "2004",
+    "ValorUnitario": 299.90
+  },
+  {
+    "Id": 5,
+    "Nome": "Tablet 10\"",
+    "Codigo": "2005",
+    "ValorUnitario": 1899.00
+  },
+  {
+    "Id": 6,
+    "Nome": "Roteador Wi-Fi 6",
+    "Codigo": "2006",
+    "ValorUnitario": 499.90
+  },
+  {
+    "Id": 7,
+    "Nome": "Monitor 27\" 4K",
+    "Codigo": "2007",
+    "ValorUnitario": 2199.99
+  },
+  {
+    "Id": 8,
+    "Nome": "SSD 1TB NVMe",
+    "Codigo": "2008",
+    "ValorUnitario": 649.90
+  },
+  {
+    "Id": 9,
+    "Nome": "Placa de Vídeo RTX",
+    "Codigo": "2009",
+    "ValorUnitario": 5299.00
+  },
+  {
+    "Id": 10,
+    "Nome": "Teclado Mecânico",
+    "Codigo": "2010",
+    "ValorUnitario": 399.90
   }
 ]
