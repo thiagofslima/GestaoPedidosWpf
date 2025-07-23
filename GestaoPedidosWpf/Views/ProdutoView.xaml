@@ -3,11 +3,92 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GestaoPedidosWpf.Views"
+             xmlns:models="clr-namespace:GestaoPedidosWpf.Models"
+             xmlns:viewmodels="clr-namespace:GestaoPedidosWpf.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <DataGrid ItemsSource="{Binding Produtos}" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,108,0,85"/>
-        <Button x:Name="btnAdicionar" Command="{Binding AdicionarProdutoCommand}" Content="Adicionar" HorizontalAlignment="Left" Margin="353,69,0,0" VerticalAlignment="Top"/>
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+    
+    <UserControl.Resources>
+        <x:Array x:Key="ProdutosExemplo" Type="{x:Type models:Produto}">
+            <models:Produto Id="1" Nome="Smartphone" Codigo="2001" ValorUnitario="3499.90" />
+            <models:Produto Id="2" Nome="Notebook" Codigo="2002" ValorUnitario="7499.00" />
+        </x:Array>
+    </UserControl.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Filtro -->
+            <RowDefinition Height="*"/>
+            <!-- DataGrid -->
+            <RowDefinition Height="Auto"/>
+            <!-- Botões inferiores -->
+        </Grid.RowDefinitions>
+
+        <!-- Linha de filtro -->
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Filtrar por Nome ou Código:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <TextBox Grid.Column="1"
+                     Text="{Binding TextoFiltro, UpdateSourceTrigger=PropertyChanged}"
+                     VerticalAlignment="Center"
+                     Height="25"/>
+            <Button Grid.Column="2"
+                    Content="Limpar"
+                    Command="{Binding LimparFiltroCommand}"
+                    Width="100"
+                    Height="25"
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"/>
+        </Grid>
+
+        <!-- DataGrid -->
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Produtos}"
+                  d:ItemsSource="{StaticResource ProdutosExemplo}"
+                  SelectedItem="{Binding ProdutoSelecionado, Mode=TwoWay}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  IsReadOnly="True" 
+                  Margin="0,0,0,10">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Nome" Binding="{Binding Nome}" Width="*"/>
+                <DataGridTextColumn Header="Código" Binding="{Binding Codigo}" Width="100"/>
+                <DataGridTextColumn Header="Valor Unitário" Binding="{Binding ValorUnitario, StringFormat=C, ConverterCulture=pt-BR}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Botões inferiores -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Adicionar -->
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Content="Adicionar" 
+                        Command="{Binding AdicionarProdutoCommand}" 
+                        Width="100" Height="30"/>
+            </StackPanel>
+
+            <!-- Editar / Excluir -->
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" >
+                <Button Content="Editar" 
+                        Command="{Binding EditarProdutoCommand}" 
+                        Width="100" Height="30" Margin="0,0,10,0"/>
+                <Button Content="Excluir" 
+                        Command="{Binding ExcluirProdutoCommand}" 
+                        Width="100" Height="30"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

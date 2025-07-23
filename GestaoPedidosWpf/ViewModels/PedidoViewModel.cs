@@ -74,7 +74,7 @@ namespace GestaoPedidosWpf.ViewModels
 
             Pessoas = new ObservableCollection<Pessoa>(new PessoaService().ObterTodas());
             Pedidos = new ObservableCollection<Pedido>(new PedidoService().ObterTodos());
-            Produtos = new ObservableCollection<Produto>(new ProdutoService().ObterTodas());
+            Produtos = new ObservableCollection<Produto>(new ProdutoService().ObterTodos());
             ItensPedido = new ObservableCollection<ProdutoPedido>();
 
             AdicionarItemCommand = new RelayCommand(() =>
