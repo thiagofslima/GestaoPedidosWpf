@@ -31,6 +31,9 @@ namespace GestaoPedidosWpf.ViewModels
         public ICommand AdicionarItemCommand => new RelayCommand(AdicionarPedido);
         public ICommand RemoverItemCommand { get; }
         public ICommand FinalizarPedidoCommand { get; }
+        public ICommand MarcarComoPagoCommand { get; }
+        public ICommand MarcarComoEnviadoCommand { get; }
+        public ICommand MarcarComoRecebidoCommand { get; }
 
         public ObservableCollection<Pessoa> Pessoas { get; set; }
         public ObservableCollection<Produto> Produtos { get; set; }
@@ -155,6 +158,10 @@ namespace GestaoPedidosWpf.ViewModels
             Produtos = new ObservableCollection<Produto>(new ProdutoService().ObterTodos());
             ItensPedido = new ObservableCollection<ProdutoPedido>();
 
+            MarcarComoPagoCommand = new RelayCommand<Pedido>(MarcarComoPago);
+            MarcarComoEnviadoCommand = new RelayCommand<Pedido>(MarcarComoEnviado);
+            MarcarComoRecebidoCommand = new RelayCommand<Pedido>(MarcarComoRecebido);
+
             FinalizarPedidoCommand = new RelayCommand(() =>
             {
                 if (PessoaSelecionada == null)
@@ -259,6 +266,18 @@ namespace GestaoPedidosWpf.ViewModels
 
             ProdutoPedido = new ProdutoPedido();
             OnPropertyChanged(nameof(ProdutoPedido));
+        }
+
+        private void MarcarComoPago(Pedido pedido) => AtualizarStatus(pedido.Id, Status.Pago);
+
+        private void MarcarComoEnviado(Pedido pedido) => AtualizarStatus(pedido.Id, Status.Enviado);
+
+        private void MarcarComoRecebido(Pedido pedido) => AtualizarStatus(pedido.Id, Status.Recebido);
+
+        private void AtualizarStatus(int pedidoId, Status status)
+        {
+            new PedidoService().AtualizarStatus(pedidoId, status);
+            AtualizarPedidos();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

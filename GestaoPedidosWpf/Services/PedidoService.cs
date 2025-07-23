@@ -101,5 +101,17 @@ namespace GestaoPedidosWpf.Services
                 File.WriteAllText(caminhoArquivo, JsonConvert.SerializeObject(listaPedidos, Formatting.Indented));
             }
         }
+
+        public void AtualizarStatus(int id, Status status)
+        {
+            var listaPedidos = ObterTodos();
+            var pedido = listaPedidos.FirstOrDefault(p => p.Id == id);
+
+            if (pedido != null)
+            {
+                pedido.Status = status;
+                File.WriteAllText(caminhoArquivo, JsonConvert.SerializeObject(listaPedidos, Formatting.Indented));
+            }
+        }
     }
 }
