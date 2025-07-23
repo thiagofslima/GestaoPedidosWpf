@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Newtonsoft.Json;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace GestaoPedidosWpf.Models
@@ -6,6 +7,7 @@ namespace GestaoPedidosWpf.Models
     public class ProdutoPedido : INotifyPropertyChanged
     {
         private Produto _produto;
+        [JsonIgnore]
         public Produto Produto
         {
             get => _produto;

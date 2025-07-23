@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -8,9 +9,9 @@ namespace GestaoPedidosWpf.Models
     {
         public int Id { get; set; }
         public int PessoaId { get; set; }
+        [JsonIgnore]
         public Pessoa Pessoa { get; set; }
         public List<ProdutoPedido> ProdutosPedido { get; set; }
-        public List<Produto> Produtos { get; set; }
         public decimal ValorTotal { get; set; }
         public DateTime DataVenda { get; set; }
         public FormaPagamento FormaPagamento { get; set; }
@@ -20,18 +21,18 @@ namespace GestaoPedidosWpf.Models
     public enum FormaPagamento
     {
         [Description("Dinheiro")]
-        Dinheiro,
+        Dinheiro = 1,
         [Description("Cartão")]
-        Cartao,
+        Cartao = 2,
         [Description("Boleto")]
-        Boleto
+        Boleto = 3
     }
 
     public enum Status
     {
-        Pendente,
-        Pago,
-        Enviado,
-        Recebido
+        Pendente = 1,
+        Pago = 2,
+        Enviado = 3,
+        Recebido = 4
     }
 }
