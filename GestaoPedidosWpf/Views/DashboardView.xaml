@@ -1,15 +1,114 @@
 ﻿<UserControl x:Class="GestaoPedidosWpf.Views.DashboardView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GestaoPedidosWpf.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Text="Bem-vindo ao Sistema de Gestão de Pedidos"
-                   FontSize="26"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"/>
-    </Grid>
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="800"
+             Background="#F5F5F5">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- TÍTULO -->
+            <TextBlock Text="Dashboard"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       Foreground="#4CAF50"
+                       Margin="0,0,0,20"/>
+
+            <!-- INDICADORES -->
+            <UniformGrid Grid.Row="1" Columns="2" Rows="2" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+
+                <!-- CARD BASE -->
+                <Border Background="White"
+                        CornerRadius="8"
+                        Margin="10"
+                        Padding="16"
+                        BorderBrush="#DDD"
+                        BorderThickness="1">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="6" ShadowDepth="2" Opacity="0.1"/>
+                    </Border.Effect>
+                    <StackPanel>
+                        <TextBlock Text="Clientes Ativos"
+                                   FontWeight="Bold"
+                                   FontSize="16"
+                                   Foreground="#333"/>
+                        <TextBlock Text="{Binding TotalClientesAtivos}"
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   Foreground="#4CAF50"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="White"
+                        CornerRadius="8"
+                        Margin="10"
+                        Padding="16"
+                        BorderBrush="#DDD"
+                        BorderThickness="1">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="6" ShadowDepth="2" Opacity="0.1"/>
+                    </Border.Effect>
+                    <StackPanel>
+                        <TextBlock Text="Total de Pedidos"
+                                   FontWeight="Bold"
+                                   FontSize="16"
+                                   Foreground="#333"/>
+                        <TextBlock Text="{Binding TotalPedidos}"
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   Foreground="#4CAF50"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="White"
+                        CornerRadius="8"
+                        Margin="10"
+                        Padding="16"
+                        BorderBrush="#DDD"
+                        BorderThickness="1">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="6" ShadowDepth="2" Opacity="0.1"/>
+                    </Border.Effect>
+                    <StackPanel>
+                        <TextBlock Text="Valor em Vendas"
+                                   FontWeight="Bold"
+                                   FontSize="16"
+                                   Foreground="#333"/>
+                        <TextBlock Text="{Binding TotalVendas, StringFormat=R$ {0:N2}}"
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   Foreground="#4CAF50"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="White"
+                        CornerRadius="8"
+                        Margin="10"
+                        Padding="16"
+                        BorderBrush="#DDD"
+                        BorderThickness="1">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="6" ShadowDepth="2" Opacity="0.1"/>
+                    </Border.Effect>
+                    <StackPanel>
+                        <TextBlock Text="Quantidade Produtos"
+                                   FontWeight="Bold"
+                                   FontSize="16"
+                                   Foreground="#333"/>
+                        <TextBlock Text="{Binding TotalProdutos}"
+                                   FontSize="28"
+                                   FontWeight="Bold"
+                                   Foreground="#4CAF50"/>
+                    </StackPanel>
+                </Border>
+
+            </UniformGrid>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

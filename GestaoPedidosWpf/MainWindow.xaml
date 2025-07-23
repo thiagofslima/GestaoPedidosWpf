@@ -17,12 +17,22 @@
             <ColumnDefinition Width="160"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Background="#EEE">
-            <Button Content="Dashboard" Command="{Binding NavegarDashboardCommand}" Height="40"/>
-            <Button Content="Pessoas" Command="{Binding NavegarPessoasCommand}" Height="40"/>
-            <Button Content="Produtos" Command="{Binding NavegarProdutosCommand}" Height="40"/>
-            <Button Content="Pedidos" Command="{Binding NavegarPedidosCommand}" Height="40"/>
+        <StackPanel Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" VerticalAlignment="Stretch">
+            <TextBlock Text="MENU" FontWeight="Bold" FontSize="14" Foreground="#888" Margin="10 0" />
+
+            <Button Content="🏠 Dashboard"
+            Command="{Binding NavegarDashboardCommand}" Height="50" />
+
+            <Button Content="👤 Pessoas"
+            Command="{Binding NavegarPessoasCommand}" Height="50" />
+
+            <Button Content="📦 Produtos"
+            Command="{Binding NavegarProdutosCommand}" Height="50" />
+
+            <Button Content="📝 Pedidos"
+            Command="{Binding NavegarPedidosCommand}" Height="50" />
         </StackPanel>
+
 
         <ContentControl Content="{Binding ConteudoAtual}" Grid.Column="1" />
     </Grid>

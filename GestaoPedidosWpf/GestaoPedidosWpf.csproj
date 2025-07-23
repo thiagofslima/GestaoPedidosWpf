@@ -68,6 +68,7 @@
     <Compile Include="Utils\EnumDescriptionConverter.cs" />
     <Compile Include="Utils\EnumExtensions.cs" />
     <Compile Include="Utils\Utilitarios.cs" />
+    <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\PedidoViewModel.cs" />
     <Compile Include="ViewModels\PessoaViewModel.cs" />
