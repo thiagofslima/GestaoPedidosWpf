@@ -17,11 +17,16 @@ namespace GestaoPedidosWpf.ViewModels
         public ProdutoPedido ProdutoPedido { get; set; } = new ProdutoPedido();
         public ProdutoPedido ItemSelecionado { get; set; } = new ProdutoPedido();
 
-        public decimal TotalPedido { get => _totalPedido; set { _totalPedido = value; OnPropertyChanged(nameof(TotalPedido)); } }
         private decimal _totalPedido;
+        public decimal TotalPedido
+        {
+            get => _totalPedido;
+            set { _totalPedido = value; OnPropertyChanged(nameof(TotalPedido)); } 
+        }
 
-        public ICommand NovoPedidoCommand { get; }
-        public ICommand AdicionarItemCommand { get; }
+        public ICommand LimparFiltrosCommand => new RelayCommand(LimparFiltros);
+        public ICommand NovoPedidoCommand => new RelayCommand(AbrirNovoPedido);
+        public ICommand AdicionarItemCommand => new RelayCommand(AdicionarPedido);
         public ICommand RemoverItemCommand { get; }
         public ICommand FinalizarPedidoCommand { get; }
 
@@ -45,10 +50,56 @@ namespace GestaoPedidosWpf.ViewModels
             set
             {
                 _pessoaSelecionada = value;
+                FiltrarPedidos();
                 OnPropertyChanged(nameof(PessoaSelecionada));
+            }
+        }
 
-                Pedidos = new ObservableCollection<Pedido>(new PedidoService().ObterPorPessoa(PessoaSelecionada.Id));
+        private string _valorMinimo;
+        public string ValorMinimo
+        {
+            get => _valorMinimo;
+            set
+            {
+                _valorMinimo = value;
+                FiltrarPedidos();
+                OnPropertyChanged(nameof(ValorMinimo));
+            }
+        }
 
+        private string _valorMaximo;
+        public string ValorMaximo
+        {
+            get => _valorMaximo;
+            set
+            {
+                _valorMaximo = value;
+                FiltrarPedidos();
+                OnPropertyChanged(nameof(ValorMaximo));
+            }
+        }
+
+        private DateTime? _dataInicial;
+        public DateTime? DataInicial
+        {
+            get => _dataInicial;
+            set
+            {
+                _dataInicial = value;
+                FiltrarPedidos();
+                OnPropertyChanged(nameof(DataInicial));
+            }
+        }
+
+        private DateTime? _dataFinal;
+        public DateTime? DataFinal
+        {
+            get => _dataFinal;
+            set
+            {
+                _dataFinal = value;
+                FiltrarPedidos();
+                OnPropertyChanged(nameof(DataFinal));
             }
         }
 
@@ -56,49 +107,44 @@ namespace GestaoPedidosWpf.ViewModels
             => Enum.GetValues(typeof(FormaPagamento))
                    .Cast<FormaPagamento>();
 
-        private FormaPagamento _formaSelecionada;
-        public FormaPagamento FormaSelecionada
+        private FormaPagamento? _pgtSelecionado;
+        public FormaPagamento? PgtoSelecionado
         {
-            get => _formaSelecionada;
+            get => _pgtSelecionado;
             set
             {
-                if (_formaSelecionada == value) return;
-                _formaSelecionada = value;
+                if (_pgtSelecionado == value) return;
+                _pgtSelecionado = value;
+                FiltrarPedidos();
+                OnPropertyChanged();
+            }
+        }
+
+        public IEnumerable<Status> StatusPedidos
+            => Enum.GetValues(typeof(Status))
+            .Cast<Status>();
+
+        private Status? _statusSelecionado;
+        public Status? StatusSelecionado
+        {
+            get => _statusSelecionado;
+            set
+            {
+                if (_statusSelecionado == value) return;
+                _statusSelecionado = value;
+                FiltrarPedidos();
                 OnPropertyChanged();
             }
         }
 
         public PedidoViewModel()
         {
-            NovoPedidoCommand = new RelayCommand(AbrirNovoPedido);
-
             Pessoas = new ObservableCollection<Pessoa>(new PessoaService().ObterTodas());
             Pedidos = new ObservableCollection<Pedido>(new PedidoService().ObterTodos());
             Produtos = new ObservableCollection<Produto>(new ProdutoService().ObterTodos());
             ItensPedido = new ObservableCollection<ProdutoPedido>();
 
-            AdicionarItemCommand = new RelayCommand(() =>
-            {
-                if (ProdutoPedido.Produto == null || ProdutoPedido.Quantidade <= 0)
-                {
-                    MessageBox.Show("Selecione um produto e informe a quantidade");
-                    return;
-                }
 
-                var novoItem = new ProdutoPedido
-                {
-                    Produto = this.ProdutoPedido.Produto,
-                    Quantidade = this.ProdutoPedido.Quantidade,
-                    ValorUnitario = this.ProdutoPedido.Produto?.ValorUnitario ?? 0
-                };
-
-                TotalPedido += novoItem.Total;
-
-                ItensPedido.Add(novoItem);
-
-                ProdutoPedido = new ProdutoPedido();
-                OnPropertyChanged(nameof(ProdutoPedido));
-            });
 
             FinalizarPedidoCommand = new RelayCommand(() =>
             {
@@ -119,7 +165,7 @@ namespace GestaoPedidosWpf.ViewModels
                     ProdutosPedido = ItensPedido.ToList(),
                     ValorTotal = ItensPedido.Sum(i => i.ValorUnitario * i.Quantidade),
                     DataVenda = DateTime.Now,
-                    FormaPagamento = FormaSelecionada,
+                    FormaPagamento = (FormaPagamento)PgtoSelecionado,
                     Status = Status.Pendente
                 });
 
@@ -138,10 +184,62 @@ namespace GestaoPedidosWpf.ViewModels
             });
         }
 
+        private void FiltrarPedidos()
+        {
+            decimal? valorMin = decimal.TryParse(ValorMinimo, out var parsedMin) ? parsedMin : (decimal?)null;
+            decimal? valorMax = decimal.TryParse(ValorMaximo, out var parsedMax) ? parsedMax : (decimal?)null;
+
+            var listaFiltrada = new PedidoService().ObterFiltrado(
+                PessoaSelecionada?.Id,
+                PgtoSelecionado,
+                StatusSelecionado,
+                valorMin,
+                valorMax,
+                DataInicial,
+                DataFinal
+            );
+
+            Pedidos.Clear();
+            foreach (var pedido in listaFiltrada)
+                Pedidos.Add(pedido);
+        }
+
+        private void LimparFiltros()
+        {
+            PessoaSelecionada = null;
+            PgtoSelecionado = null;
+            StatusSelecionado = null;
+            ValorMinimo = string.Empty;
+            ValorMaximo = string.Empty;
+            DataInicial = null;
+            DataFinal = null;
+        }
 
         private void AbrirNovoPedido()
         {
             CriarPedidoRequested?.Invoke(PessoaSelecionada);
+        }
+
+        private void AdicionarPedido()
+        {
+            if (ProdutoPedido.Produto == null || ProdutoPedido.Quantidade <= 0)
+            {
+                MessageBox.Show("Selecione um produto e informe a quantidade");
+                return;
+            }
+
+            var novoItem = new ProdutoPedido
+            {
+                Produto = ProdutoPedido.Produto,
+                Quantidade = ProdutoPedido.Quantidade,
+                ValorUnitario = ProdutoPedido.Produto?.ValorUnitario ?? 0
+            };
+            TotalPedido += novoItem.Total;
+
+            ItensPedido.Add(novoItem);
+
+            ProdutoPedido = new ProdutoPedido();
+            OnPropertyChanged(nameof(ProdutoPedido));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

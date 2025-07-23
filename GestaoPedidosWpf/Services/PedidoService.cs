@@ -1,5 +1,6 @@
 ﻿using GestaoPedidosWpf.Models;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -38,6 +39,47 @@ namespace GestaoPedidosWpf.Services
         public List<Pedido> ObterPorPessoa(int pessoaId)
         {
             return ObterTodos().Where(p => p.PessoaId == pessoaId).ToList();
+        }
+
+        public List<Pedido> ObterFiltrado(
+            int? pessoaId,
+            FormaPagamento? formaPgto,
+            Status? status,
+            decimal? valorMinimo,
+            decimal? valorMaximo,
+            DateTime? dataInicial,
+            DateTime? dataFinal)
+        {
+            IEnumerable<Pedido> lista = ObterTodos();
+
+            if (pessoaId.HasValue)
+                lista = lista.Where(p =>
+                    p.PessoaId == pessoaId
+                );
+
+            if (formaPgto.HasValue)
+                lista = lista.Where(p =>
+                    p.FormaPagamento == formaPgto
+                );
+
+            if (status.HasValue)
+                lista = lista.Where(p =>
+                    p.Status == status
+                );
+
+            if (valorMinimo.HasValue || valorMaximo.HasValue)
+                lista = lista.Where(p =>
+                    (!valorMinimo.HasValue || p.ValorTotal >= valorMinimo) &&
+                    (!valorMaximo.HasValue || p.ValorTotal <= valorMaximo)
+                );
+
+            if (dataInicial.HasValue || dataFinal.HasValue)
+                lista = lista.Where(p =>
+                    (!dataInicial.HasValue || p.DataVenda >= dataInicial) &&
+                    (!dataFinal.HasValue || p.DataVenda <= dataFinal)
+                );
+
+            return lista.ToList();
         }
 
         public void Adicionar(Pedido produto)
