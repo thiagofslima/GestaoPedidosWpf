@@ -70,6 +70,12 @@ namespace GestaoPedidosWpf.ViewModels
             if (janela.ShowDialog() == false)
                 return;
 
+            if (!Utilitarios.ValidarCpf(novaPessoa.Cpf))
+            {
+                MessageBox.Show("CPF inválido.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             _pessoaService.Adicionar(novaPessoa);
 
             Pessoas.Add(novaPessoa);
@@ -83,6 +89,12 @@ namespace GestaoPedidosWpf.ViewModels
             var janela = new PessoaCadastroView(PessoaSelecionada);
             if (janela.ShowDialog() == false)
                 return;
+
+            if (!Utilitarios.ValidarCpf(PessoaSelecionada.Cpf))
+            {
+                MessageBox.Show("CPF inválido.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
             _pessoaService.Atualizar(PessoaSelecionada);
             PessoaSelecionada = null;
