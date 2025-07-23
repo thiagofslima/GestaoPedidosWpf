@@ -221,6 +221,8 @@ namespace GestaoPedidosWpf.ViewModels
                 Pedidos.Add(pedido);
         }
 
+        public void AtualizarPedidos() => FiltrarPedidos();
+
         private void LimparFiltros()
         {
             PessoaSelecionada = null;

@@ -49,6 +49,7 @@ namespace GestaoPedidosWpf.ViewModels
 
                 pedidoVm.PedidoFinalizado += () =>
                 {
+                    pedidoVm.AtualizarPedidos();
                     ConteudoAtual = pedidoView;
                 };
 
@@ -76,23 +77,23 @@ namespace GestaoPedidosWpf.ViewModels
 
         private void NavegarParaPedidos()
         {
-            var pedidosVm = new PedidoViewModel();
+            var pedidoVm = new PedidoViewModel();
 
             var pedidosView = new PedidoView
             {
-                DataContext = pedidosVm
+                DataContext = pedidoVm
             };
 
-            pedidosVm.CriarPedidoRequested += () =>
+            pedidoVm.CriarPedidoRequested += () =>
             {
                 var cadastroView = new PedidoCadastroView
                 {
-                    DataContext = pedidosVm
+                    DataContext = pedidoVm
                 };
 
-                // Evento de retorno após finalizar o pedido
-                pedidosVm.PedidoFinalizado += () =>
+                pedidoVm.PedidoFinalizado += () =>
                 {
+                    pedidoVm.AtualizarPedidos();
                     ConteudoAtual = pedidosView;
                 };
 
