@@ -13,7 +13,9 @@ namespace GestaoPedidosWpf.ViewModels
 {
     public class PedidoViewModel : INotifyPropertyChanged
     {
-        public event Action<Pessoa> CriarPedidoRequested;
+        public event Action CriarPedidoRequested;
+        public event Action PedidoFinalizado;
+
         public ProdutoPedido ProdutoPedido { get; set; } = new ProdutoPedido();
         public ProdutoPedido ItemSelecionado { get; set; } = new ProdutoPedido();
 
@@ -49,7 +51,16 @@ namespace GestaoPedidosWpf.ViewModels
             get => _pessoaSelecionada;
             set
             {
-                _pessoaSelecionada = value;
+                if (value != null && Pessoas != null && Pessoas.Any())
+                {
+                    var encontrada = Pessoas.FirstOrDefault(p => p.Id == value.Id);
+                    _pessoaSelecionada = encontrada ?? value;
+                }
+                else
+                {
+                    _pessoaSelecionada = value;
+                }
+
                 FiltrarPedidos();
                 OnPropertyChanged(nameof(PessoaSelecionada));
             }
@@ -144,13 +155,17 @@ namespace GestaoPedidosWpf.ViewModels
             Produtos = new ObservableCollection<Produto>(new ProdutoService().ObterTodos());
             ItensPedido = new ObservableCollection<ProdutoPedido>();
 
-
-
             FinalizarPedidoCommand = new RelayCommand(() =>
             {
                 if (PessoaSelecionada == null)
                 {
                     MessageBox.Show("Selecione uma pessoa");
+                    return;
+                }
+
+                if (PgtoSelecionado == null)
+                {
+                    MessageBox.Show("Selecione uma forma de pagamento");
                     return;
                 }
 
@@ -173,6 +188,8 @@ namespace GestaoPedidosWpf.ViewModels
 
                 ItensPedido.Clear();
                 TotalPedido = 0m;
+
+                PedidoFinalizado?.Invoke();
             });
 
             RemoverItemCommand = new RelayCommand(() =>
@@ -217,7 +234,7 @@ namespace GestaoPedidosWpf.ViewModels
 
         private void AbrirNovoPedido()
         {
-            CriarPedidoRequested?.Invoke(PessoaSelecionada);
+            CriarPedidoRequested?.Invoke();
         }
 
         private void AdicionarPedido()

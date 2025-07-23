@@ -86,6 +86,10 @@
                 <Button Content="Adicionar" 
                         Command="{Binding AdicionarPessoaCommand}" 
                         Width="100" Height="30"/>
+                <Button Content="Incluir Pedido"
+                        Command="{Binding IncluirPedidoCommand}"
+                        HorizontalAlignment="Left" VerticalAlignment="Top"
+                        Width="100" Height="30" Margin="7,0,0,0"/>
             </StackPanel>
 
             <!-- Editar / Excluir -->

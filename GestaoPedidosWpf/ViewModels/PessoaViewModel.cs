@@ -1,6 +1,8 @@
 ﻿using GestaoPedidosWpf.Models;
 using GestaoPedidosWpf.Services;
+using GestaoPedidosWpf.Utils;
 using GestaoPedidosWpf.Views;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
@@ -11,6 +13,7 @@ namespace GestaoPedidosWpf.ViewModels
     public class PessoaViewModel : INotifyPropertyChanged
     {
         private readonly PessoaService _pessoaService = new PessoaService();
+        public event Action<Pessoa> CriarPedidoRequested;
 
         public ObservableCollection<Pessoa> Pessoas { get; set; }
 
@@ -48,6 +51,7 @@ namespace GestaoPedidosWpf.ViewModels
 
         public ICommand LimparFiltroCommand => new RelayCommand(() => TextoFiltro = string.Empty);
         public ICommand AdicionarPessoaCommand => new RelayCommand(AdicionarPessoa);
+        public ICommand IncluirPedidoCommand => new RelayCommand(AbrirPedido);
         public ICommand EditarPessoaCommand => new RelayCommand(EditarPessoa, () => PessoaSelecionada != null);
         public ICommand ExcluirPessoaCommand => new RelayCommand(ExcluirPessoa, () => PessoaSelecionada != null);
 
@@ -82,6 +86,11 @@ namespace GestaoPedidosWpf.ViewModels
             TextoFiltro = string.Empty;
 
             MessageBox.Show("Salvo com sucesso!");
+        }
+
+        private void AbrirPedido()
+        {
+            CriarPedidoRequested?.Invoke(PessoaSelecionada);
         }
 
         private void EditarPessoa()

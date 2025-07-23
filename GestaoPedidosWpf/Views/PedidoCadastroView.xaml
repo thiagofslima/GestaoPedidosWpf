@@ -38,7 +38,7 @@
                 Width="251" Margin="8,0,16,0"/>
             <TextBlock Text="Forma de Pagamento:" VerticalAlignment="Center"/>
             <ComboBox ItemsSource="{Binding FormasPagamento}"
-                SelectedItem="{Binding FormaSelecionada, Mode=TwoWay}"
+                SelectedItem="{Binding PgtoSelecionado, Mode=TwoWay}"
                 Width="161" Margin="8,0,16,0">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
