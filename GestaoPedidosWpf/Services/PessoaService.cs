@@ -51,6 +51,8 @@ namespace GestaoPedidosWpf.Services
             if (!Directory.Exists(caminhoPasta))
                 Directory.CreateDirectory(caminhoPasta);
 
+            pessoa.Ativo = true;
+
             if (File.Exists(caminhoArquivo))
             {
                 var listaPessoas = ObterTodas();
