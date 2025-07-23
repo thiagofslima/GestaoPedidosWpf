@@ -31,13 +31,27 @@ namespace GestaoPedidosWpf.Services
             return listaProdutos = new List<Produto>();
         }
 
-        public List<Produto> ObterPorNomeOuCodigo(string filtro)
+        public List<Produto> ObterFiltrado(string filtroTexto, decimal? valorMinimo, decimal? valorMaximo)
         {
-            var listaProdutos = ObterTodos();
-            return listaProdutos.Where(p =>
-                (!string.IsNullOrEmpty(p.Nome) && p.Nome.IndexOf(filtro, StringComparison.OrdinalIgnoreCase) >= 0) ||
-                (!string.IsNullOrEmpty(p.Codigo) && p.Codigo.IndexOf(filtro, StringComparison.OrdinalIgnoreCase) >= 0)
-            ).ToList();
+            var lista = ObterTodos();
+
+            if (!string.IsNullOrWhiteSpace(filtroTexto))
+            {
+                lista = lista.Where(p =>
+                    (!string.IsNullOrEmpty(p.Nome) && p.Nome.IndexOf(filtroTexto, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                    (!string.IsNullOrEmpty(p.Codigo) && p.Codigo.IndexOf(filtroTexto, StringComparison.OrdinalIgnoreCase) >= 0)
+                ).ToList();
+            }
+
+            if (valorMinimo.HasValue || valorMaximo.HasValue)
+            {
+                lista = lista.Where(p =>
+                    (!valorMinimo.HasValue || p.ValorUnitario >= valorMinimo) &&
+                    (!valorMaximo.HasValue || p.ValorUnitario <= valorMaximo)
+                ).ToList();
+            }
+
+            return lista;
         }
 
         public void Adicionar(Produto produto)

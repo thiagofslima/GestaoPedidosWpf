@@ -44,7 +44,31 @@ namespace GestaoPedidosWpf.ViewModels
             }
         }
 
-        public ICommand LimparFiltroCommand => new RelayCommand(() => TextoFiltro = string.Empty);
+        private string _valorMinimo;
+        public string ValorMinimo
+        {
+            get => _valorMinimo;
+            set
+            {
+                _valorMinimo = value;
+                FiltrarProdutos();
+                OnPropertyChanged(nameof(ValorMinimo));
+            }
+        }
+
+        private string _valorMaximo;
+        public string ValorMaximo
+        {
+            get => _valorMaximo;
+            set
+            {
+                _valorMaximo = value;
+                FiltrarProdutos();
+                OnPropertyChanged(nameof(ValorMaximo));
+            }
+        }
+
+        public ICommand LimparFiltroCommand => new RelayCommand(() => TextoFiltro = ValorMinimo = ValorMaximo = string.Empty);
         public ICommand AdicionarProdutoCommand => new RelayCommand(AdicionarProduto);
         public ICommand EditarProdutoCommand => new RelayCommand(EditarProduto, () => ProdutoSelecionado != null);
         public ICommand ExcluirProdutoCommand => new RelayCommand(ExcluirProduto, () => ProdutoSelecionado != null);
@@ -57,8 +81,11 @@ namespace GestaoPedidosWpf.ViewModels
 
         private void FiltrarProdutos()
         {
+            decimal? min = decimal.TryParse(ValorMinimo, out var parsedMin) ? parsedMin : (decimal?)null;
+            decimal? max = decimal.TryParse(ValorMaximo, out var parsedMax) ? parsedMax : (decimal?)null;
+
             Produtos.Clear();
-            foreach (var produto in _produtoService.ObterPorNomeOuCodigo(TextoFiltro))
+            foreach (var produto in _produtoService.ObterFiltrado(TextoFiltro, min, max))
                 Produtos.Add(produto);
         }
 

@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
-    
+
     <UserControl.Resources>
         <x:Array x:Key="ProdutosExemplo" Type="{x:Type models:Produto}">
             <models:Produto Id="1" Nome="Smartphone" Codigo="2001" ValorUnitario="3499.90" />
@@ -19,37 +19,48 @@
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Filtro -->
-            <RowDefinition Height="*"/>
-            <!-- DataGrid -->
             <RowDefinition Height="Auto"/>
-            <!-- Botões inferiores -->
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Linha de filtro -->
         <Grid Grid.Row="0" Margin="0,0,0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Filtrar por Nome ou Código:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <TextBlock Text="Nome ou Código:" VerticalAlignment="Center" Margin="0,0,10,0"/>
             <TextBox Grid.Column="1"
-                     Text="{Binding TextoFiltro, UpdateSourceTrigger=PropertyChanged}"
-                     VerticalAlignment="Center"
-                     Height="25"/>
-            <Button Grid.Column="2"
-                    Content="Limpar"
-                    Command="{Binding LimparFiltroCommand}"
-                    Width="100"
-                    Height="25"
-                    Margin="10,0,0,0"
-                    VerticalAlignment="Center"/>
+             Text="{Binding TextoFiltro, UpdateSourceTrigger=PropertyChanged}"
+             VerticalAlignment="Center"
+             Height="25" Margin="0,0,10,0" FontSize="18"/>
+
+            <TextBlock Grid.Column="2" Text="De:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <TextBox Grid.Column="3"
+             Text="{Binding ValorMinimo, UpdateSourceTrigger=PropertyChanged}"
+             Width="70" VerticalAlignment="Center" Margin="0,0,10,0" Height="25" FontSize="18"/>
+
+            <TextBlock Grid.Column="4" Text="Até:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <TextBox Grid.Column="5"
+             Text="{Binding ValorMaximo, UpdateSourceTrigger=PropertyChanged}"
+             Width="70" VerticalAlignment="Center" Margin="0,0,10,0" Height="25" FontSize="18"/>
+
+            <Button Grid.Column="6"
+            Content="Limpar"
+            Command="{Binding LimparFiltroCommand}"
+            Width="100"
+            Height="25"
+            VerticalAlignment="Center" Margin="10,0,0,0"/>
         </Grid>
 
         <!-- DataGrid -->
-        <DataGrid Grid.Row="1"
+        <DataGrid Grid.Row="2"
                   ItemsSource="{Binding Produtos}"
                   d:ItemsSource="{StaticResource ProdutosExemplo}"
                   SelectedItem="{Binding ProdutoSelecionado, Mode=TwoWay}"
@@ -66,8 +77,8 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <!-- Botões inferiores -->
-        <Grid Grid.Row="2">
+        <!-- Botões -->
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
